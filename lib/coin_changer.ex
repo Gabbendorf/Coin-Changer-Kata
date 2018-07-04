@@ -3,16 +3,25 @@ defmodule CoinChanger do
   Documentation for CoinChanger.
   """
 
-  @doc """
-  Hello world.
+  def change(0, changes, _) do
+    changes
+  end
 
-  ## Examples
+  def change(_, changes, []) do
+    changes
+  end
 
-      iex> CoinChanger.hello
-      :world
+  def change(amount, changes, coins) do
+    [coin | remaining_coins] = coins
 
-  """
-  def hello do
-    :world
+    if coin <= amount do
+      if amount - coin >= coin do
+        change(amount - coin, [coin] ++ changes, coins)
+      else
+        change(amount - coin, [coin] ++ changes, remaining_coins)
+      end
+    else
+      change(amount, changes, remaining_coins)
+    end
   end
 end
