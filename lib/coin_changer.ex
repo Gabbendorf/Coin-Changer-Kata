@@ -3,25 +3,22 @@ defmodule CoinChanger do
   Documentation for CoinChanger.
   """
 
-  def change(0, changes, _) do
-    changes
-  end
+  @coins [50, 20, 10, 5, 2, 1]
 
-  def change(_, changes, []) do
-    changes
-  end
-
-  def change(amount, changes, coins) do
-    [coin | remaining_coins] = coins
-
-    if coin <= amount do
-      if amount - coin >= coin do
-        change(amount - coin, [coin] ++ changes, coins)
-      else
-        change(amount - coin, [coin] ++ changes, remaining_coins)
-      end
+  def change(amount, changes) do
+    if exactChange?(amount) do
+      update(changes, amount)
     else
-      change(amount, changes, remaining_coins)
+      smallerCoin = Enum.find(@coins, fn(coin) -> coin < amount end)
+      change(amount - smallerCoin, update(changes, smallerCoin))
     end
+  end
+
+  defp exactChange?(amount) do
+    Enum.member?(@coins, amount)
+  end
+
+  defp update(changes, amount) do
+    List.insert_at(changes, 0, amount)
   end
 end
