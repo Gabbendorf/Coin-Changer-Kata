@@ -1,7 +1,4 @@
 defmodule CoinChanger do
-  @moduledoc """
-  Documentation for CoinChanger.
-  """
 
   @coins [50, 20, 10, 5, 2, 1]
 
