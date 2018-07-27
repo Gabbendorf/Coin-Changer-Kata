@@ -1,18 +1,11 @@
 defmodule CoinChanger do
-  @moduledoc """
-  Documentation for CoinChanger.
-  """
 
-  @doc """
-  Hello world.
+  @coins [50, 20, 10, 5, 2, 1]
 
-  ## Examples
+  def change(amount, changes) when amount in @coins, do: [amount | changes]
 
-      iex> CoinChanger.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def change(amount, changes) do
+    smaller_coin = Enum.find(@coins, fn(coin) -> coin < amount end)
+    change(amount - smaller_coin, [smaller_coin | changes])
   end
 end
